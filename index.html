@@ -6,54 +6,39 @@
 <title>台灣最高薪的年輕人從哪裡來</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-/* 版面：單欄長文，圖表滿版置中；資料點以父母薪資組別的藍色序列區分 */
+/* 版面：紙張背景上的標題卡開場 → 固定背景的捲動敘事（白卡片滑過）→ 紙張卡片式的後續段落；點以父母薪資組別的藍色序列區分 */
 :root {
   color-scheme: light;
-  --surface: #fbfbfa;
-  --surface-2: #f0f0ed;
-  --ink: #111214;
+  --surface: #f6f3ec;
+  --surface-2: #ece8de;
+  --ink: #1d2126;
   --ink-2: #4f5054;
   --ink-3: #7b7c80;
-  --rule: #dcdcd7;
+  --rule: #d9d3c4;
   --accent: #1c5cab;
-  --ghost: #b9b9b3;
+  --ghost: #b3ac9c;
+  --grid: rgba(120, 105, 75, 0.07);
+  --card: #fffdf8;
   --q1: #104281; --q2: #1c5cab; --q3: #2a78d6; --q4: #5598e7; --q5: #86b6ef;
   --neutral-dot: #9a9a95;
   --up: 37, 107, 191;   /* 高於 20%：藍 */
   --down: 208, 59, 59;  /* 低於 20%：紅 */
-  --display: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+  --display: "Noto Sans TC", "PingFang TC", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
   --body: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    color-scheme: dark;
-    --surface: #1a1a19; --surface-2: #252524;
-    --ink: #f0efec; --ink-2: #c3c2b7; --ink-3: #94938b;
-    --rule: #3a3a37; --accent: #86b6ef; --ghost: #5a5a55;
-    --q1: #cde2fb; --q2: #9ec5f4; --q3: #6da7ec; --q4: #3987e5; --q5: #256abf;
-    --neutral-dot: #6f6f69;
-    --up: 109, 167, 236; --down: 230, 103, 103;
-  }
-}
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --surface: #1a1a19; --surface-2: #252524;
-  --ink: #f0efec; --ink-2: #c3c2b7; --ink-3: #94938b;
-  --rule: #3a3a37; --accent: #86b6ef; --ghost: #5a5a55;
-  --q1: #cde2fb; --q2: #9ec5f4; --q3: #6da7ec; --q4: #3987e5; --q5: #256abf;
-  --neutral-dot: #6f6f69;
-  --up: 109, 167, 236; --down: 230, 103, 103;
 }
 
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
 body {
-  margin: 0; background: var(--surface); color: var(--ink);
+  margin: 0; background-color: var(--surface);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 28px 28px; color: var(--ink);
   font-family: var(--body); font-size: 17px; line-height: 1.8;
 }
-main { max-width: 680px; margin: 0 auto; padding: 40px 20px 64px; display: grid; gap: 28px; }
+
 .kicker { font-size: 13px; letter-spacing: .08em; color: var(--accent); font-weight: 700; margin: 0; }
 h1 {
   font-family: var(--display); font-weight: 900; font-size: clamp(28px, 6vw, 40px);
@@ -118,31 +103,133 @@ caption { caption-side: top; text-align: left; font-size: 14px; color: var(--ink
 ul.limits { margin: 0; padding-left: 1.2em; display: grid; gap: 8px; }
 hr { border: 0; border-top: 1px solid var(--rule); margin: 8px 0; width: 100%; }
 
+
+/* 進度條 */
+.progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: var(--ink); z-index: 20; }
+
+/* 開場 */
+.hero { position: relative; min-height: 92svh; display: grid; place-items: center; padding: 72px 20px; }
+.hero-card {
+  position: relative; z-index: 2; max-width: 520px; text-align: center;
+  background: var(--card); border: 1.5px solid var(--ink); border-radius: 10px;
+  padding: 28px 26px 24px; box-shadow: 6px 6px 0 rgba(29,33,38,.14);
+}
+.hero-card h1 { font-size: clamp(30px, 7vw, 48px); line-height: 1.25; letter-spacing: .01em; }
+.hero-card .kicker { font-family: var(--mono); }
+.scroll-cue { margin-top: 18px; font-family: var(--mono); font-size: 12px; color: var(--ink-3); letter-spacing: .1em; }
+
+/* 捲動敘事 */
+.scrolly { position: relative; }
+.sticky { position: sticky; top: 0; height: 100svh; transition: background-color .9s ease; }
+.sticky canvas { width: 100%; height: 100%; display: block; }
+.steps { position: relative; margin-top: -100svh; z-index: 2; pointer-events: none; }
+.step { min-height: 100svh; display: flex; align-items: flex-end; justify-content: center; padding: 0 16px 7svh; }
+.step:first-child { min-height: 110svh; }
+.step .card {
+  pointer-events: auto; max-width: 400px; width: 100%;
+  background: var(--card); border: 1.5px solid var(--ink); border-radius: 10px;
+  padding: 16px 18px; box-shadow: 5px 5px 0 rgba(29,33,38,.13); font-size: 16px; line-height: 1.75;
+}
+.step .card b.t { display: block; font-size: 18px; margin-bottom: 4px; }
+.step .card .n { font-family: var(--mono); font-weight: 600; }
+@media (min-width: 900px) {
+  .step { justify-content: flex-start; align-items: center; padding: 0 0 0 max(32px, calc(50vw - 560px)); }
+  .step .card { max-width: 340px; }
+}
+.after { max-width: 680px; margin: 0 auto; padding: 24px 20px 64px; display: grid; gap: 28px; }
+.after > section, .after > figure { background: var(--card); border: 1.5px solid var(--ink); border-radius: 10px; padding: 20px; box-shadow: 5px 5px 0 rgba(29,33,38,.1); }
+
+.chapter { font-family: var(--mono); font-size: 12px; letter-spacing: .12em; color: var(--accent); margin: 0; }
+h3 { font-size: 17px; margin: 0 0 4px; }
+.faq { gap: 14px; }
+.qa { border-top: 1px solid var(--rule); padding-top: 12px; }
+.ranges { display: grid; gap: 14px; padding: 6px 0 2px; }
+.range-row { display: grid; gap: 4px; }
+.range-label { font-size: 14px; color: var(--ink-2); }
+.range-track { position: relative; height: 26px; background: var(--surface-2); border-radius: 4px; }
+.range-bar { position: absolute; top: 5px; height: 16px; border-radius: 4px; background: var(--q4); }
+.range-bar.strong { background: var(--q1); }
+.range-val { position: absolute; top: 2px; padding-left: 8px; font-family: var(--mono); font-size: 13px; font-weight: 600; white-space: nowrap; }
+.range-val.before { transform: translateX(-100%); padding: 0 8px 0 0; }
+.range-axis { position: relative; height: 18px; font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
+.range-axis span { position: absolute; transform: translateX(-50%); }
+.range-axis span:first-child { transform: none; }
+.range-axis span:last-child { transform: translateX(-100%); }
+.range-note { font-size: 13px; color: var(--ink-3); }
+
 @media (prefers-reduced-motion: reduce) {
   .tip { transition: none; }
 }
 @media (max-width: 420px) {
   body { font-size: 16px; }
-  main { padding: 28px 16px 48px; }
+  .after { padding: 20px 14px 48px; }
 }
 </style>
 </head>
 <body>
-<main>
-  <header>
+<div class="progress" id="progress" aria-hidden="true"></div>
+<header class="hero" id="hero">
+  <div class="hero-card">
     <p class="kicker">資料新聞練習｜代間流動</p>
     <h1>台灣高薪年輕人，每 100 人有 27 人出身高薪家庭</h1>
     <p class="dek">如果家庭背景不影響收入，這個數字應該是 20 人。</p>
     <p class="byline">黃暐喬｜資料：中研院華人家庭動態資料庫 2004–2016，王宜甲、林心怡整理</p>
-  </header>
+    <p class="scroll-cue">往下滑 ↓</p>
+  </div>
+</header>
 
-  <section class="prose">
-    <p>我們把 25 歲以上的上班族依月薪高低，分成人數一樣多的五組。他們的父母也照月薪分成五組。</p>
-    <p>如果出身不影響收入，每一組年輕人裡，五種家庭背景的人應該一樣多，也就是每 100 人各 20 人。</p>
-    <p>下圖挑出月薪最高的那一組，換算成 100 人，把每個人送回自己的家庭。</p>
+<section class="scrolly" id="scrolly" aria-label="捲動圖解">
+  <div class="sticky" id="sticky"><canvas id="story" aria-hidden="true"></canvas></div>
+  <div class="steps">
+    <div class="step" data-step="0"><div class="card"><b class="t">這裡有 100 位年輕人</b>他們平均 29 歲，月薪排在 25 歲以上上班族的前 20%。</div></div>
+    <div class="step" data-step="1"><div class="card"><b class="t">如果出身不重要</b>把他們依父母的月薪分成五組，每組應該都是 <span class="n">20</span> 人。虛線圈就是這個平均。</div></div>
+    <div class="step" data-step="2"><div class="card"><b class="t">實際上，<span class="n">27</span> 人來自高薪家庭</b>父母月薪也在前 20% 的，比平均多了 7 人。</div></div>
+    <div class="step" data-step="3"><div class="card"><b class="t">父母低薪的，只有 <span class="n">16</span> 人</b>最右邊這一組，比平均少 4 人。</div></div>
+    <div class="step" data-step="4"><div class="card"><b class="t">換成月薪最低的 100 人</b>畫面反過來：<span class="n">25</span> 人來自低薪家庭，來自高薪家庭的只有 <span class="n">13</span> 人。</div></div>
+    <div class="step" data-step="5"><div class="card"><b class="t">中間的人，看不出明顯規律</b>把五組年輕人全部攤開，差距集中在頂端和底端。圓越大代表人數越多，虛線圈是平均的 20 人。</div></div>
+  </div>
+</section>
+
+<div class="after">
+  <section class="prose" id="age">
+    <h2>才工作三年，差距可能還沒拉開</h2>
+    <p>上面這群年輕人平均 29 歲，進職場才 3 年多。剛入行的薪水，還看不出一個人一輩子會落在哪個位置。</p>
+    <p>換個問法比較好懂：父母的月薪多 10%，孩子的月薪會多多少？</p>
+    <div class="ranges" role="img" aria-label="平均 29 歲時，父母月薪多 10%，孩子多 0.5% 到 0.8%；看接近一生收入的年紀時，孩子多 2.5% 到 3.3%。">
+      <div class="range-row">
+        <div class="range-label">看平均 29 歲、工作約 3 年時</div>
+        <div class="range-track"><span class="range-bar" style="left:12.5%;width:7.5%"></span><span class="range-val" style="left:20%">0.5%–0.8%</span></div>
+      </div>
+      <div class="range-row">
+        <div class="range-label">看年紀更大、收入較穩定時</div>
+        <div class="range-track"><span class="range-bar strong" style="left:62.25%;width:20.75%"></span><span class="range-val before" style="left:62.25%">2.5%–3.3%</span></div>
+      </div>
+      <div class="range-axis"><span style="left:0">0%</span><span style="left:25%">1%</span><span style="left:50%">2%</span><span style="left:75%">3%</span><span style="left:100%">4%</span></div>
+      <p class="range-note">父母月薪多 10% 時，孩子月薪多出的幅度</p>
+    </div>
+    <p>差了好幾倍。研究沒有檢驗原因，一種可能是高薪家庭的孩子比較常讀研究所、出國或花時間找更好的工作，起薪不一定高，但之後爬得比較快。</p>
+    <p>兩份研究的算法不同，數字不能精確比較，但方向一致：看得越晚，父母的影響越明顯。前面的「27 人」，可能還是保守的數字。</p>
+    <p class="source">上：王宜甲、林心怡〈臺灣跨世代薪資移轉與傳遞〉，父母平均月薪對子女月薪。下：許聖章、李菁慧、謝蕙竹〈台灣三代代間所得流動之探討〉，《經濟論文》49 卷 4 期（2021），父親對子女所得，使用華人家庭動態資料庫 1999–2016。</p>
+  </section>
+
+  <section class="prose faq">
+    <h2>讀者可能會問</h2>
+    <div class="qa">
+      <h3>這是今天的台灣嗎？</h3>
+      <p>不完全是。數字來自 2004 到 2016 年間 11 次調查合併計算（2013 年沒有資料），最近一筆是 2016 年。薪資是當年的金額，沒有扣除物價上漲。</p>
+    </div>
+    <div class="qa">
+      <h3>月薪多少才算前 20%？</h3>
+      <p>研究沒有公布門檻。可以參考的是，這群年輕人的月薪平均約 3.7 萬元，父母平均約 2.6 萬元。</p>
+    </div>
+    <div class="qa">
+      <h3>住在哪裡有差嗎？</h3>
+      <p>研究只把受訪者分成「北部」和「其他地區」，北部包括台北、新北、基隆、宜蘭、桃園和新竹。其他條件相同時，住北部的年輕人月薪高約 7% 到 11%。這說的是薪水高低，不是家庭背景的影響，研究也沒有各縣市的數字。</p>
+    </div>
   </section>
 
   <figure aria-labelledby="chart-title">
+    <h2>五組年輕人，各自來自哪裡</h2>
     <div>
       <div class="tabs-label" id="tabs-label">選一組年輕人來看</div>
       <div class="tabs" role="group" aria-labelledby="tabs-label" id="tabs"></div>
@@ -163,13 +250,6 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 8px 0; width: 100%; }
     <figcaption class="source">註：只比較月薪，不含房產、股票等資產。原研究沒有列出這張表的樣本數。100 人是由百分比換算後四捨五入。<br>資料來源：王宜甲、林心怡〈臺灣跨世代薪資移轉與傳遞〉表 8，使用中研院華人家庭動態資料庫（PSFD）2004–2016 年調查（缺 2013 年）。<a href="https://econ.ntu.edu.tw/wp-content/uploads/2023/12/macro_1070329.pdf">論文 PDF</a></figcaption>
   </figure>
 
-  <section class="prose">
-    <h2>高薪的多出身高薪，低薪的多出身低薪</h2>
-    <p>月薪最高的 100 位年輕人裡，<strong>27 人</strong>的父母也是高薪，比平均多 7 人。父母是低薪的只有 <strong>16 人</strong>。</p>
-    <p>低薪那一端也一樣。月薪最低的 100 位年輕人裡，<strong>25 人</strong>來自低薪家庭，來自高薪家庭的只有 <strong>13 人</strong>。</p>
-    <p>中間三組的分布比較分散，看不出明顯的規律。</p>
-    <p>資料來自中研院 2004 到 2016 年的家庭追蹤調查。這群年輕人平均 29 歲，月薪平均約 3.7 萬元。研究沒有公布「最高薪」一組的月薪門檻。</p>
-  </section>
 
   <section class="prose">
     <h2>完整數字</h2>
@@ -183,7 +263,7 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 8px 0; width: 100%; }
 
   <hr>
   <p class="source">本頁是資料新聞練習作品，圖表形式參考《紐約時報》2018 年〈Extensive Data Shows Punishing Reach of Racism for Black Boys〉。原作從父母追到孩子長大；這份資料是以年輕人為準計算的，所以本頁反過來，從年輕人追回父母。</p>
-</main>
+</div>
 
 <script>
 (function () {
@@ -387,6 +467,201 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 8px 0; width: 100%; }
   (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(function () { start(0); });
 })();
 
+</script>
+<script>
+(function () {
+  var M = [
+    [27.42, 20.57, 20.09, 15.96, 15.96],
+    [23.13, 22.06, 24.32, 17.32, 13.17],
+    [18.53, 21.72, 24.90, 17.01, 17.84],
+    [15.61, 19.27, 27.08, 18.77, 19.27],
+    [13.00, 20.16, 21.75, 20.42, 24.67]
+  ];
+  var PARENT = ['最高', '次高', '中間', '次低', '最低'];
+  var CHILD = ['前 20%', '次高', '中間', '次低', '後 20%'];
+  var Q = ['#104281', '#1c5cab', '#2a78d6', '#5598e7', '#86b6ef'], NEUTRAL = '#8f8a7e';
+  var INK = '#1d2126', INK2 = '#4f5054', INK3 = '#7b7c80', GHOST = '#b3ac9c';
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function hex(h) { return [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)]; }
+  function toHundred(row) {
+    var f = row.map(Math.floor), left = 100 - f.reduce(function (a, b) { return a + b; }, 0);
+    row.map(function (v, i) { return [v - Math.floor(v), i]; }).sort(function (a, b) { return b[0] - a[0] || a[1] - b[1]; })
+      .slice(0, left).forEach(function (o) { f[o[1]]++; });
+    return f;
+  }
+  function rng(seed) { return function () { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; }; }
+  var BODY = '"Noto Sans TC", "PingFang TC", sans-serif', MONO = '"IBM Plex Mono", ui-monospace, monospace';
+
+
+  var progress = document.getElementById('progress');
+  var ticking = false;
+  function onScroll() {
+    if (ticking) return; ticking = true;
+    requestAnimationFrame(function () {
+      ticking = false;
+      var y = window.scrollY, max = document.documentElement.scrollHeight - innerHeight;
+      progress.style.width = (max > 0 ? y / max * 100 : 0) + '%';
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  // ---------- 固定背景的點陣 ----------
+  var sticky = document.getElementById('sticky'), cv = document.getElementById('story'), ctx = cv.getContext('2d');
+  var W, H, G;
+  function layout() {
+    W = sticky.clientWidth; H = sticky.clientHeight;
+    var dpr = window.devicePixelRatio || 1;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var wide = W >= 900, rx, ry, rw, rh;
+    if (wide) { rx = Math.max(W * 0.42, W / 2 - 160); rw = Math.min(W - rx - 48, 640); ry = 70; rh = H - 140; }
+    else { rx = 10; rw = W - 20; ry = 56; rh = H * 0.6 - 40; }
+    var per = wide ? 5 : 4, colW = rw / 5, s = Math.min(colW / (per + 1.2), wide ? 24 : 17, (rh - 70) / 10);
+    G = { wide: wide, per: per, rx: rx, ry: ry, rw: rw, rh: rh, colW: colW, s: s, r: s * 0.4,
+      base: ry + rh / 2 + Math.ceil(28 / per) * s / 2 };
+  }
+  function slot(j, p) { return [G.rx + G.colW * (j + 0.5) + ((p % G.per) - (G.per - 1) / 2) * G.s, G.base - Math.floor(p / G.per) * G.s]; }
+  function block(k) { var cx = G.rx + G.rw / 2, q = Math.min(G.s * 1.25, G.rw / 11); return [cx + ((k % 10) - 4.5) * q, G.base - Math.floor(k / 10) * q]; }
+  function pileTop(j, n) { return G.base - (Math.ceil(Math.max(n, 20) / G.per) - 1) * G.s; }
+  function mgeo() {
+    var left = G.wide ? 70 : 58, top = 52;
+    var cell = Math.min((G.rw - left) / 5, (G.rh - top - 10) / 5);
+    return { x0: G.rx + left + ((G.rw - left) - cell * 5) / 2, y0: G.ry + top, cell: cell, maxR: cell * 0.46 };
+  }
+
+  var STEPS = [
+    { mode: 'block', bg: '#f6f3ec', title: '月薪前 20% 的 100 位年輕人' },
+    { mode: 'cols', counts: [20, 20, 20, 20, 20], dim: 0.5, hi: null, bg: '#f6f3ec', title: '如果出身不重要：每組 20 人' },
+    { mode: 'cols', row: 0, hi: [0], bg: '#eef2f6', title: '月薪前 20% 的 100 位年輕人' },
+    { mode: 'cols', row: 0, hi: [4], bg: '#f6f3ec', title: '月薪前 20% 的 100 位年輕人' },
+    { mode: 'cols', row: 4, hi: [0, 4], bg: '#ece6da', title: '月薪後 20% 的 100 位年輕人' },
+    { mode: 'matrix', bg: '#f6f3ec', title: '五組年輕人，父母月薪的分布' }
+  ];
+  var dots = [], step = -1, t0 = 0, cur = { label: 0, ghost: 0, mat: 0, block: 1 }, from = {}, to = {}, counts = [20, 20, 20, 20, 20];
+  for (var k = 0; k < 100; k++) dots.push({ x: 0, y: 0, c: hex(NEUTRAL), a: 1, sx: 0, sy: 0, sc: hex(NEUTRAL), sa: 1, tx: 0, ty: 0, tc: hex(NEUTRAL), ta: 1 });
+
+  function targets(n) {
+    var st = STEPS[n];
+    if (st.mode === 'block') {
+      dots.forEach(function (d, i) { var b = block(i); d.tx = b[0]; d.ty = b[1]; d.tc = hex(NEUTRAL); d.ta = 1; });
+      return { label: 0, ghost: 0, mat: 0, block: 1 };
+    }
+    if (st.mode === 'matrix') {
+      var m = mgeo();
+      dots.forEach(function (d) { d.tx = m.x0 + m.cell * 2.5; d.ty = m.y0 + m.cell * 2.5; d.ta = 0; });
+      return { label: 0, ghost: 0, mat: 1, block: 0 };
+    }
+    counts = st.counts || toHundred(M[st.row]);
+    var i = 0;
+    for (var j = 0; j < 5; j++) for (var p = 0; p < counts[j]; p++, i++) {
+      var xy = slot(j, p), d = dots[i];
+      d.tx = xy[0]; d.ty = xy[1]; d.tc = hex(Q[j]);
+      d.ta = st.dim ? st.dim : (!st.hi || st.hi.indexOf(j) > -1 ? 1 : 0.28);
+    }
+    return { label: 1, ghost: 1, mat: 0, block: 0 };
+  }
+  function go(n, instant) {
+    if (n === step && !instant) return;
+    step = n;
+    sticky.style.backgroundColor = STEPS[n].bg;
+    dots.forEach(function (d) { d.sx = d.x; d.sy = d.y; d.sc = d.c.slice(); d.sa = d.a; });
+    from = { label: cur.label, ghost: cur.ghost, mat: cur.mat, block: cur.block };
+    to = targets(n);
+    t0 = instant || reduce ? -1e9 : performance.now();
+    kick();
+  }
+  function ease(u) { return u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2; }
+
+  var raf = null;
+  function kick() { if (!raf) raf = requestAnimationFrame(frame); }
+  function frame(now) {
+    raf = null;
+    var moving = false;
+    dots.forEach(function (d, i) {
+      var u = Math.max(0, Math.min(1, (now - t0 - i * 5) / 950)); if (u < 1) moving = true;
+      var e = ease(u);
+      d.x = d.sx + (d.tx - d.sx) * e; d.y = d.sy + (d.ty - d.sy) * e;
+      d.c = [0, 1, 2].map(function (q) { return Math.round(d.sc[q] + (d.tc[q] - d.sc[q]) * e); });
+      d.a = d.sa + (d.ta - d.sa) * e;
+    });
+    var u2 = ease(Math.max(0, Math.min(1, (now - t0) / 800)));
+    ['label', 'ghost', 'mat', 'block'].forEach(function (k) { cur[k] = from[k] + (to[k] - from[k]) * u2; });
+    draw();
+    if (moving || u2 < 1) kick();
+  }
+
+  function text(t, x, y, font, color, a, align) {
+    ctx.globalAlpha = a; ctx.fillStyle = color; ctx.font = font; ctx.textAlign = align || 'center'; ctx.fillText(t, x, y);
+  }
+  function draw() {
+    ctx.clearRect(0, 0, W, H); ctx.globalAlpha = 1;
+    text(STEPS[step].title, G.rx + G.rw / 2, G.ry - 18, '700 15px ' + BODY, INK, 1);
+    // 平均線：虛線圈
+    if (cur.ghost > 0.01) {
+      ctx.globalAlpha = cur.ghost; ctx.strokeStyle = GHOST; ctx.lineWidth = 1; ctx.setLineDash([2, 2]);
+      for (var j = 0; j < 5; j++) for (var p = 0; p < 20; p++) { var g = slot(j, p); ctx.beginPath(); ctx.arc(g[0], g[1], G.r, 0, 6.2832); ctx.stroke(); }
+      ctx.setLineDash([]);
+    }
+    dots.forEach(function (d) {
+      if (d.a < 0.01) return;
+      ctx.globalAlpha = d.a; ctx.fillStyle = 'rgb(' + d.c.join(',') + ')';
+      ctx.beginPath(); ctx.arc(d.x, d.y, G.r, 0, 6.2832); ctx.fill();
+    });
+    if (cur.label > 0.01) {
+      var st = STEPS[step];
+      for (j = 0; j < 5; j++) {
+        var cx = G.rx + G.colW * (j + 0.5);
+        var on = !st.hi || st.hi.indexOf(j) > -1;
+        text(counts[j] + ' 人', cx, pileTop(j, counts[j]) - G.r - 10, '600 15px ' + MONO, on ? INK : INK3, cur.label);
+        text(PARENT[j] + ' 20%', cx, G.base + G.r + 18, '12px ' + BODY, INK2, cur.label);
+      }
+      text('父母的月薪', G.rx + G.rw / 2, G.base + G.r + 38, '12px ' + BODY, INK3, cur.label);
+    }
+    if (cur.block > 0.01) text('每個點 = 1 人', G.rx + G.rw / 2, G.base + G.r + 22, '12px ' + BODY, INK3, cur.block);
+    if (cur.mat > 0.01) drawMatrix(cur.mat);
+    ctx.globalAlpha = 1;
+  }
+  function drawMatrix(a) {
+    var m = mgeo(), maxV = 27.42;
+    text('父母的月薪 →', m.x0 + m.cell * 2.5, m.y0 - 30, '12px ' + BODY, INK3, a);
+    for (var j = 0; j < 5; j++) text(PARENT[j], m.x0 + m.cell * (j + 0.5), m.y0 - 10, '12px ' + BODY, INK2, a);
+    text('年輕人', m.x0 - 8, m.y0 - 30, '12px ' + BODY, INK3, a, 'right');
+    for (var r = 0; r < 5; r++) {
+      var cy = m.y0 + m.cell * (r + 0.5);
+      text(CHILD[r], m.x0 - 8, cy + 4, '12px ' + BODY, INK2, a, 'right');
+      for (j = 0; j < 5; j++) {
+        var cx = m.x0 + m.cell * (j + 0.5), v = M[r][j];
+        var rr = Math.sqrt(v / maxV) * m.maxR, rg = Math.sqrt(20 / maxV) * m.maxR;
+        ctx.globalAlpha = a; ctx.fillStyle = Q[j]; ctx.beginPath(); ctx.arc(cx, cy, rr, 0, 6.2832); ctx.fill();
+        ctx.strokeStyle = INK; ctx.globalAlpha = a * 0.55; ctx.setLineDash([3, 3]); ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.arc(cx, cy, rg, 0, 6.2832); ctx.stroke(); ctx.setLineDash([]);
+        var big = (r === 0 && j === 0) || (r === 4 && j === 4);
+        text(Math.round(v) + '', cx, cy + 4, (big ? '600 13px ' : '500 11px ') + MONO, j < 3 ? '#fff' : INK, a);
+      }
+    }
+  }
+
+  // 卡片進入畫面中央時切換
+  var stepEls = document.querySelectorAll('.step');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) go(+e.target.getAttribute('data-step')); });
+    }, { rootMargin: '-45% 0px -45% 0px' });
+    stepEls.forEach(function (el) { io.observe(el); });
+  }
+
+  function resize() {
+    layout();
+    var s = step < 0 ? 0 : step; step = -1;
+    dots.forEach(function (d) { d.x = d.tx; d.y = d.ty; });
+    go(s, true);
+    dots.forEach(function (d) { d.x = d.tx; d.y = d.ty; d.c = d.tc.slice(); d.a = d.ta; });
+  }
+  window.addEventListener('resize', resize);
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(function () {
+    layout(); targets(0); dots.forEach(function (d) { d.x = d.tx; d.y = d.ty; }); go(0, true);
+  });
+})();
 </script>
 </body>
 </html>
