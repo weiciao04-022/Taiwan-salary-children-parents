@@ -59,7 +59,7 @@ h1 {
   font-family: var(--display); font-weight: 900; font-size: clamp(28px, 6vw, 40px);
   line-height: 1.3; margin: 6px 0 0; text-wrap: balance;
 }
-.dek { font-size: 18px; color: var(--ink-2); margin: 12px 0 0; }
+.dek { font-size: 19px; color: var(--ink-2); margin: 12px 0 0; }
 .byline { font-size: 13px; color: var(--ink-3); margin: 14px 0 0; }
 h2 { font-family: var(--display); font-weight: 600; font-size: 22px; margin: 0; text-wrap: balance; }
 p { margin: 0; }
@@ -83,7 +83,7 @@ canvas { display: block; width: 100%; touch-action: pan-y; }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
 .sw { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
 .sw.ghost-sw { border: 1px dashed var(--ghost); }
-.readout { font-size: 15px; color: var(--ink-2); line-height: 1.7; min-height: 3.4em; }
+.readout { font-size: 16px; color: var(--ink); line-height: 1.7; min-height: 3.4em; }
 .readout b { color: var(--ink); }
 .replay {
   justify-self: start; font: inherit; font-size: 13px; color: var(--accent); background: none;
@@ -94,7 +94,7 @@ canvas { display: block; width: 100%; touch-action: pan-y; }
   font-size: 13px; line-height: 1.5; padding: 6px 10px; border-radius: 6px; max-width: 220px;
   opacity: 0; transition: opacity .15s; transform: translate(-50%, -100%); white-space: normal;
 }
-.source { font-size: 12.5px; color: var(--ink-3); line-height: 1.6; }
+.source { font-size: 14px; color: var(--ink-2); line-height: 1.75; }
 .source a { color: inherit; }
 
 /* 兩種讀法 */
@@ -131,25 +131,26 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 8px 0; width: 100%; }
 <main>
   <header>
     <p class="kicker">資料新聞練習｜代間流動</p>
-    <h1>台灣薪水最高的年輕人，超過四分之一來自最高薪家庭</h1>
-    <p class="dek">如果出身不影響收入，每一組家庭應該各占 20%。調查資料顯示，台灣頂端與底端的位置都比較容易傳給下一代。</p>
+    <h1>台灣高薪年輕人，每 100 人有 27 人出身高薪家庭</h1>
+    <p class="dek">如果家庭背景不影響收入，這個數字應該是 20 人。</p>
     <p class="byline">黃暐喬｜資料：中研院華人家庭動態資料庫 2004–2016，王宜甲、林心怡整理</p>
   </header>
 
   <section class="prose">
-    <p>把台灣 25 歲以上、有薪水的年輕人依月薪排序，切成人數相同的五組。再把他們的父母也依月薪切成五組。如果家庭背景完全不影響收入，任何一組年輕人裡，五種家庭出身的人應該各占兩成。</p>
-    <p>下圖從今天往回追。把月薪最高的那 20% 年輕人換算成 100 人，一個一個送回他們出身的家庭，看他們最後落在哪一組。</p>
+    <p>我們把 25 歲以上的上班族依月薪高低，分成人數一樣多的五組。他們的父母也照月薪分成五組。</p>
+    <p>如果出身不影響收入，每一組年輕人裡，五種家庭背景的人應該一樣多，也就是每 100 人各 20 人。</p>
+    <p>下圖挑出月薪最高的那一組，換算成 100 人，把每個人送回自己的家庭。</p>
   </section>
 
   <figure aria-labelledby="chart-title">
     <div>
-      <div class="tabs-label" id="tabs-label">選擇子女的薪資組別</div>
+      <div class="tabs-label" id="tabs-label">選一組年輕人來看</div>
       <div class="tabs" role="group" aria-labelledby="tabs-label" id="tabs"></div>
     </div>
     <div class="chart-title" id="chart-title"></div>
     <div class="legend" aria-hidden="true">
       <span>每個點 = 1 人</span>
-      <span><i class="sw ghost-sw"></i>機會均等時的 20 人</span>
+      <span><i class="sw ghost-sw"></i>平均分配時的 20 人</span>
       <span><i class="sw" style="background:var(--q1)"></i>父母最高 20%</span>
       <span><i class="sw" style="background:var(--q5)"></i>父母最低 20%</span>
     </div>
@@ -159,49 +160,29 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 8px 0; width: 100%; }
     </div>
     <p class="readout" id="readout" aria-live="polite"></p>
     <button class="replay" id="replay" type="button">重播流動</button>
-    <figcaption class="source">說明：100 個點是把百分比換算成 100 人並四捨五入（總數維持 100），標示的百分比為原始數字。父母薪資為父母月均薪的平均。<br>資料來源：王宜甲、林心怡〈臺灣跨世代薪資移轉與傳遞〉表 8，使用中研院華人家庭動態資料庫（PSFD）2004–2016 年調查（缺 2013 年）。<a href="https://econ.ntu.edu.tw/wp-content/uploads/2023/12/macro_1070329.pdf">論文 PDF</a></figcaption>
+    <figcaption class="source">註：只比較月薪，不含房產、股票等資產。原研究沒有列出這張表的樣本數。100 人是由百分比換算後四捨五入。<br>資料來源：王宜甲、林心怡〈臺灣跨世代薪資移轉與傳遞〉表 8，使用中研院華人家庭動態資料庫（PSFD）2004–2016 年調查（缺 2013 年）。<a href="https://econ.ntu.edu.tw/wp-content/uploads/2023/12/macro_1070329.pdf">論文 PDF</a></figcaption>
   </figure>
 
   <section class="prose">
-    <h2>頂端與底端都比較難流動</h2>
-    <p>月薪最高的年輕人裡，<strong>27.4%</strong> 的父母也在最高薪的兩成，比機會均等時多了 7 個百分點。父母在最低薪兩成的，只占 <strong>16.0%</strong>。</p>
-    <p>切換到「最低 20%」會看到相反的畫面：月薪最低的年輕人裡，<strong>24.7%</strong> 來自最低薪家庭，來自最高薪家庭的只有 <strong>13.0%</strong>。論文作者把這兩個數字視為「優勢傳承」與「難以脫貧」的主要證據。</p>
-    <p>這些數字是 2004 到 2016 年間 11 次調查合併計算的結果（2013 年沒有資料），不是單一年度。分析的年輕人平均 28.8 歲，平均月薪約 3.7 萬元，父母月均薪平均約 2.6 萬元。論文沒有公布「最高 20%」的月薪門檻，所以無法說出月薪多少才算進入頂端。</p>
-    <p>中間三組就沒有這麼清楚的規律。例如月薪次低的年輕人裡，有 27.1% 來自父母薪資居中的家庭，比例甚至跟頂端那一格差不多。</p>
-  </section>
-
-  <section class="prose">
-    <h2>這張圖能說什麼、不能說什麼</h2>
-    <p>這份表格的分母是<strong>子女</strong>那一組，所以它回答的是「這群年輕人從哪裡來」，不是「這群家庭的孩子最後去了哪裡」。這兩句話聽起來很像，但問的是不同的問題。</p>
-    <div class="compare">
-      <div class="read ok"><span class="tag">可以這樣說</span>薪水最高的 20% 年輕人中，有 27.4% 的父母也在最高的 20%。</div>
-      <div class="read no"><span class="tag">不能這樣說</span>最高薪父母的孩子，有 27.4% 長大後也成為最高薪。</div>
-    </div>
-    <p>驗算的方法是把表格反過來加總：父母最高 20% 那一欄往下加起來是 97.7%，不是 100%，所以這張表不能反過來讀。</p>
+    <h2>高薪的多出身高薪，低薪的多出身低薪</h2>
+    <p>月薪最高的 100 位年輕人裡，<strong>27 人</strong>的父母也是高薪，比平均多 7 人。父母是低薪的只有 <strong>16 人</strong>。</p>
+    <p>低薪那一端也一樣。月薪最低的 100 位年輕人裡，<strong>25 人</strong>來自低薪家庭，來自高薪家庭的只有 <strong>13 人</strong>。</p>
+    <p>中間三組的分布比較分散，看不出明顯的規律。</p>
+    <p>資料來自中研院 2004 到 2016 年的家庭追蹤調查。這群年輕人平均 29 歲，月薪平均約 3.7 萬元。研究沒有公布「最高薪」一組的月薪門檻。</p>
   </section>
 
   <section class="prose">
     <h2>完整數字</h2>
     <div class="table-wrap">
       <table id="matrix">
-        <caption>各薪資組子女的父母薪資分布（%）。每一列加總為 100%；藍底高於 20%，紅底低於 20%。</caption>
+        <caption>每一列是一組年輕人，數字是父母落在各組的比例（%），每列加起來是 100。藍底代表多於平均的 20，紅底代表少於 20。</caption>
       </table>
     </div>
   </section>
 
-  <section class="prose">
-    <h2>資料限制</h2>
-    <ul class="limits">
-      <li><strong>比的是月薪，不是資產。</strong>財富的代間傳承通常比薪資更強，這張圖不能用來推論資產。</li>
-      <li><strong>樣本是調查，不是母體。</strong>論文沒有列出這張表的樣本數，也沒有提供信賴區間，所以無法判斷幾個百分點的差距是否超出抽樣誤差。研究中 25 歲以上子女約 3,768 筆觀察值，但不確定是否就是這張表的基數。</li>
-      <li><strong>一位家長可能對應多名子女。</strong>約 53% 的父母觀察值連到一名以上的子女，論文全部保留。各欄加總不等於 100%，代表配對樣本中各父母組的人數不一樣多。</li>
-      <li><strong>子女還很年輕。</strong>論文指出子女樣本平均只工作 3 到 4 年，早期月薪不一定代表一生的收入位置。</li>
-      <li><strong>排除了沒有薪水的人。</strong>月薪為 0、遺漏、無酬家屬工作者與拒答都不在計算內。</li>
-    </ul>
-  </section>
 
   <hr>
-  <p class="source">本頁為資料新聞練習作品，手法參考《紐約時報》Upshot 2018 年〈Extensive Data Shows Punishing Reach of Racism for Black Boys〉的流動點陣圖。原作從父母往下追蹤孩子長大後的收入；這份資料的分母是子女，所以本頁把流動方向反過來，從子女往回追溯父母。資料、文字與設計為原創。</p>
+  <p class="source">本頁是資料新聞練習作品，圖表形式參考《紐約時報》2018 年〈Extensive Data Shows Punishing Reach of Racism for Black Boys〉。原作從父母追到孩子長大；這份資料是以年輕人為準計算的，所以本頁反過來，從年輕人追回父母。</p>
 </main>
 
 <script>
@@ -264,9 +245,9 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 8px 0; width: 100%; }
     for (var i = seq.length - 1; i > 0; i--) { var r = Math.floor(rand() * (i + 1)); var t = seq[i]; seq[i] = seq[r]; seq[r] = t; }
     var reserved = [0, 0, 0, 0, 0];
     seq = seq.map(function (j) { return { j: j, p: reserved[j]++ }; });
-    titleEl.textContent = '今天薪資' + CHILD[row] + '的年輕人，來自哪一種家庭？';
-    readout.innerHTML = '薪資' + CHILD[row] + '的 100 位年輕人中，父母在最高 20% 的有 <b>' + counts[0] +
-      ' 人</b>，在最低 20% 的有 <b>' + counts[4] + ' 人</b>。機會均等時，兩者都應該是 20 人。';
+    titleEl.textContent = '月薪' + CHILD[row] + '的年輕人，父母的月薪在哪一組？';
+    readout.innerHTML = '這 100 人裡，父母是最高薪的有 <b>' + counts[0] + ' 人</b>，最低薪的有 <b>' +
+      counts[4] + ' 人</b>。平均的話，各應該是 20 人。';
     var btns = document.querySelectorAll('#tabs button');
     for (var b = 0; b < btns.length; b++) btns[b].setAttribute('aria-pressed', b === row ? 'true' : 'false');
     if (reduce) { landed = counts.slice(); done = true; draw(performance.now()); return; }
@@ -297,9 +278,9 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 8px 0; width: 100%; }
     // 來源
     ctx.fillStyle = C.ink; ctx.textAlign = 'center';
     ctx.font = '700 14px ' + C.body;
-    ctx.fillText('今天：薪資' + CHILD[current] + '的 100 位年輕人', W / 2, 22);
+    ctx.fillText('月薪' + CHILD[current] + '的 100 位年輕人', W / 2, 22);
     ctx.fillStyle = C['ink-3']; ctx.font = '12px ' + C.body;
-    ctx.fillText('往回追溯他們的父母 ↓', W / 2, 40);
+    ctx.fillText('送回各自的家庭 ↓', W / 2, 40);
     ctx.fillStyle = C.rule;
     ctx.fillRect(W / 2 - G.bandW / 2, G.srcY + 4, G.bandW, 3);
     // 機會均等的空心圈
@@ -330,7 +311,7 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 8px 0; width: 100%; }
       ctx.fillText(PARENT[j] + ' 20%', cx, G.base + G.r + 18);
     }
     ctx.fillStyle = C['ink-3']; ctx.font = '12px ' + C.body;
-    ctx.fillText('父母的薪資組別', W / 2, G.base + G.r + 40);
+    ctx.fillText('父母的月薪', W / 2, G.base + G.r + 40);
   }
 
   var raf = null, visible = true;
@@ -361,7 +342,7 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 8px 0; width: 100%; }
     if (y < G.srcY + 20) { tip.style.opacity = 0; return; }
     var diff = M[current][j] - 20;
     tip.innerHTML = '父母' + PARENT[j] + ' 20%：<b>' + counts[j] + ' 人</b>（' + M[current][j].toFixed(2) +
-      '%）<br>比機會均等' + (diff >= 0 ? '多 ' : '少 ') + Math.abs(diff).toFixed(1) + ' 個百分點';
+      '%）<br>比平均' + (diff >= 0 ? '多 ' : '少 ') + Math.abs(diff).toFixed(1) + ' 個百分點';
     tip.style.left = Math.min(Math.max(G.colW * (j + 0.5), 110), W - 110) + 'px';
     tip.style.top = (pileTop(j, counts[j]) - G.r - 28) + 'px';
     tip.style.opacity = 1;
@@ -373,7 +354,7 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 8px 0; width: 100%; }
   var tabs = document.getElementById('tabs');
   CHILD.forEach(function (lab, r) {
     var b = document.createElement('button');
-    b.type = 'button'; b.id = 'tab-' + r; b.textContent = '子女' + lab;
+    b.type = 'button'; b.id = 'tab-' + r; b.textContent = '月薪' + lab;
     b.addEventListener('click', function () { start(r); });
     tabs.appendChild(b);
   });
@@ -389,11 +370,11 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 8px 0; width: 100%; }
   // 完整矩陣表格
   var table = document.getElementById('matrix');
   var thead = document.createElement('thead'), tr = document.createElement('tr');
-  tr.innerHTML = '<th scope="col">子女 ＼ 父母</th>' + PARENT.map(function (p) { return '<th scope="col">父母<br>' + p + ' 20%</th>'; }).join('');
+  tr.innerHTML = '<th scope="col">年輕人 ＼ 父母</th>' + PARENT.map(function (p) { return '<th scope="col">父母<br>' + p + ' 20%</th>'; }).join('');
   thead.appendChild(tr); table.appendChild(thead);
   var tbody = document.createElement('tbody');
   M.forEach(function (row, r) {
-    var trr = document.createElement('tr'), html = '<th scope="row">子女' + CHILD[r] + '</th>';
+    var trr = document.createElement('tr'), html = '<th scope="row">月薪' + CHILD[r] + '</th>';
     row.forEach(function (v) {
       var d = v - 20, a = Math.min(Math.abs(d) / 8, 1) * 0.32;
       html += '<td class="' + (d >= 5 ? 'hi' : '') + '" style="background: rgba(' + (d >= 0 ? 'var(--up)' : 'var(--down)') + ',' + a.toFixed(3) + ')">' + v.toFixed(2) + '</td>';
