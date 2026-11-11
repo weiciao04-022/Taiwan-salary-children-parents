@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>台灣最高薪的年輕人從哪裡來</title>
+<title>同樣年輕，加薪的只有一部分人</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -157,6 +157,22 @@ h3 { font-size: 17px; margin: 0 0 4px; }
 .range-axis span:last-child { transform: translateX(-100%); }
 .range-note { font-size: 13px; color: var(--ink-3); }
 
+.after.pre { padding-bottom: 32px; }
+.mini { margin: 6px 0 0; }
+.mini svg { width: 100%; height: auto; display: block; overflow: visible; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.tile { border: 1.5px solid var(--ink); border-radius: 8px; padding: 12px; display: grid; gap: 4px; background: var(--surface); }
+.tile .big { font-family: var(--mono); font-weight: 600; font-size: 26px; line-height: 1.1; }
+.tile .big small { font-family: var(--body); font-size: 13px; font-weight: 500; }
+.tile .lab { font-size: 13.5px; color: var(--ink-2); line-height: 1.55; }
+.bars { display: grid; gap: 6px; }
+.bar-title { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+.bar-row { display: grid; grid-template-columns: 74px 1fr; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-2); }
+.bar-fill { height: 20px; border-radius: 4px; background: var(--ghost); position: relative; }
+.bar-fill.young { background: var(--q2); }
+.bar-fill span { position: absolute; left: calc(100% + 6px); top: 0; font-family: var(--mono); font-size: 12px; color: var(--ink); line-height: 20px; white-space: nowrap; }
+
 @media (prefers-reduced-motion: reduce) {
   .tip { transition: none; }
 }
@@ -170,13 +186,57 @@ h3 { font-size: 17px; margin: 0 0 4px; }
 <div class="progress" id="progress" aria-hidden="true"></div>
 <header class="hero" id="hero">
   <div class="hero-card">
-    <p class="kicker">資料新聞練習｜代間流動</p>
-    <h1>台灣高薪年輕人，每 100 人有 27 人出身高薪家庭</h1>
-    <p class="dek">如果家庭背景不影響收入，這個數字應該是 20 人。</p>
-    <p class="byline">黃暐喬｜資料：中研院華人家庭動態資料庫 2004–2016，王宜甲、林心怡整理</p>
+    <p class="kicker">資料新聞練習｜世代與出身</p>
+    <h1>同樣 25 到 29 歲，加薪的只有一部分人</h1>
+    <p class="dek">2019 到 2023 年，這個年紀的薪水中位數扣掉物價後沒有成長，平均數卻多了 3.8%。接下來大量財富要傳給下一代，同一代人的差距可能更大。</p>
+    <p class="byline">黃暐喬｜資料：主計總處、內政部、財政部、臺灣證券交易所、中研院華人家庭動態資料庫</p>
     <p class="scroll-cue">往下滑 ↓</p>
   </div>
 </header>
+
+<div class="after pre">
+  <section class="prose" id="pay">
+    <h2>薪水中位數，扣掉物價後原地踏步</h2>
+    <p>2019 到 2023 年，25 到 29 歲上班族一年總薪資的中位數，從 46.6 萬元漲到 50 萬元，多了 7.3%。同一段時間，物價也漲了 7.3%。扣掉之後，等於沒有加薪。</p>
+    <p>平均數就不一樣了。扣掉物價後，平均數多了 3.8%。平均數會被少數高薪的人往上拉，中位數不會，所以兩條線分開，代表這幾年的加薪集中在同齡人裡收入較高的那一群。</p>
+    <figure class="mini" aria-labelledby="pay-title">
+      <div class="chart-title" id="pay-title">25 到 29 歲的全年總薪資，扣掉物價後的變化（2019 年 = 100）</div>
+      <div class="legend" aria-hidden="true">
+        <span><i class="sw" style="background:#eb6834"></i>平均數</span>
+        <span><i class="sw" style="background:#1c5cab"></i>中位數</span>
+      </div>
+      <svg id="paychart" viewBox="0 0 400 260" role="img" aria-label="2019 到 2023 年，25 到 29 歲薪資中位數扣掉物價後維持在 100，平均數升到 103.8。"></svg>
+      <table class="sr">
+        <caption>實質薪資指數（2019 年 = 100）</caption>
+        <tr><th>年</th><th>中位數</th><th>平均數</th></tr>
+        <tr><td>2019</td><td>100.0</td><td>100.0</td></tr><tr><td>2020</td><td>101.1</td><td>101.4</td></tr>
+        <tr><td>2021</td><td>99.6</td><td>101.7</td></tr><tr><td>2022</td><td>99.6</td><td>103.3</td></tr><tr><td>2023</td><td>100.0</td><td>103.8</td></tr>
+      </table>
+      <figcaption class="source">資料：行政院主計總處「工業及服務業受僱員工全年總薪資中位數及分布統計」，引自勞動部《113 年青年（15~29 歲）勞動狀況》；以主計總處消費者物價指數（2021 年 = 100）平減。全年總薪資含獎金。</figcaption>
+    </figure>
+  </section>
+
+  <section class="prose" id="wealth">
+    <h2>錢在誰手上</h2>
+    <p>年紀越大，存下的錢本來就越多，這是正常的。但幾個數字顯示，接下來幾年，財富會大量往下一代移動。</p>
+    <div class="tiles">
+      <div class="tile"><span class="big">894<small> 萬元</small></span><span class="lab">2021 年底，台灣家庭財富的中位數</span></div>
+      <div class="tile"><span class="big">66.9<small> 倍</small></span><span class="lab">最富 20% 家庭與最窮 20% 家庭的財富差距（5,133 萬元比 77 萬元）</span></div>
+      <div class="tile"><span class="big">1.38<small> 兆元</small></span><span class="lab">2025 年核定的遺產總額，創新高</span></div>
+      <div class="tile"><span class="big">10.82<small> 倍</small></span><span class="lab">2024 年第三季的全國房價所得比，是近年負擔最重的時候；2025 年第四季回落到 9.32 倍</span></div>
+    </div>
+    <p>股市也是。台股開戶人數最多的是 61 歲以上，占 29%。30 歲以下的年輕人正在快速進場，但累計開戶數仍只占 19%。</p>
+    <div class="bars" role="img" aria-label="2026 年 9 月台股累計開戶人數：0 到 19 歲 89 萬、20 到 30 歲 193 萬、31 到 40 歲 239.1 萬、41 到 50 歲 273.5 萬、51 到 60 歲 241.6 萬、61 歲以上 428 萬。">
+      <div class="bar-title">台股累計開戶人數，依年齡（2026 年 9 月，萬人）</div>
+    </div>
+    <p class="source">資料：主計總處 110 年家庭財富分配統計；財政部遺產稅核定統計（引自《商業周刊》）；內政部房價負擔能力指標；臺灣證券交易所投資人開戶數年齡分布（引自《經濟日報》）。</p>
+  </section>
+
+  <section class="prose" id="origin-intro">
+    <h2>同一代裡，出身決定誰先上車</h2>
+    <p>財富往下傳的時候，每個人的起點本來就不一樣。中研院的家庭動態資料庫追蹤台灣家庭多年，可以看出高薪的年輕人都來自什麼樣的家庭。</p>
+  </section>
+</div>
 
 <section class="scrolly" id="scrolly" aria-label="捲動圖解">
   <div class="sticky" id="sticky"><canvas id="story" aria-hidden="true"></canvas></div>
@@ -213,7 +273,7 @@ h3 { font-size: 17px; margin: 0 0 4px; }
   </section>
 
   <section class="prose faq">
-    <h2>讀者可能會問</h2>
+    <h2>關於出身這份資料，讀者可能會問</h2>
     <div class="qa">
       <h3>這是今天的台灣嗎？</h3>
       <p>不完全是。數字來自 2004 到 2016 年間 11 次調查合併計算（2013 年沒有資料），最近一筆是 2016 年。薪資是當年的金額，沒有扣除物價上漲。</p>
@@ -660,6 +720,41 @@ h3 { font-size: 17px; margin: 0 0 4px; }
   window.addEventListener('resize', resize);
   (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(function () {
     layout(); targets(0); dots.forEach(function (d) { d.x = d.tx; d.y = d.ty; }); go(0, true);
+  });
+})();
+</script>
+<script>
+(function () {
+  // 實質薪資指數（2019=100），由 data/processed/real_pay_index_2019_100.csv
+  var yrs = [2019, 2020, 2021, 2022, 2023];
+  var S = [{ name: '平均數', c: '#eb6834', v: [100, 101.4, 101.7, 103.3, 103.8] },
+           { name: '中位數', c: '#1c5cab', v: [100, 101.1, 99.6, 99.6, 100.0] }];
+  var svg = document.getElementById('paychart'), NS = 'http://www.w3.org/2000/svg';
+  var L = 34, R = 290, T = 14, B = 226, y0 = 98, y1 = 105;
+  function x(i) { return L + (R - L) * i / 4; }
+  function y(v) { return B - (B - T) * (v - y0) / (y1 - y0); }
+  function el(n, a, t) { var e = document.createElementNS(NS, n); for (var k in a) e.setAttribute(k, a[k]); if (t != null) e.textContent = t; svg.appendChild(e); return e; }
+  [98, 100, 102, 104].forEach(function (g) {
+    el('line', { x1: L, x2: R, y1: y(g), y2: y(g), stroke: g === 100 ? '#9a937f' : '#e3ddcf', 'stroke-width': g === 100 ? 1.2 : 1 });
+    el('text', { x: L - 8, y: y(g) + 4, 'text-anchor': 'end', 'font-size': 13, fill: '#7b7c80', 'font-family': 'IBM Plex Mono, monospace' }, g);
+  });
+  yrs.forEach(function (yr, i) { el('text', { x: x(i), y: B + 22, 'text-anchor': 'middle', 'font-size': 13, fill: '#4f5054', 'font-family': 'IBM Plex Mono, monospace' }, yr); });
+  S.forEach(function (s) {
+    el('polyline', { points: s.v.map(function (v, i) { return x(i) + ',' + y(v); }).join(' '), fill: 'none', stroke: s.c, 'stroke-width': 2.5, 'stroke-linejoin': 'round' });
+    s.v.forEach(function (v, i) {
+      var c = el('circle', { cx: x(i), cy: y(v), r: i === 4 ? 5 : 4, fill: s.c, stroke: '#fffdf8', 'stroke-width': 2 });
+      var t = document.createElementNS(NS, 'title'); t.textContent = s.name + ' ' + yrs[i] + '：' + v.toFixed(1); c.appendChild(t);
+    });
+    el('text', { x: x(4) + 9, y: y(s.v[4]) + 5, 'font-size': 14, 'font-weight': 700, fill: '#1d2126', 'font-family': 'Noto Sans TC, sans-serif' }, s.name + ' ' + s.v[4].toFixed(1));
+  });
+
+  // 開戶人數長條
+  var rows = [['0–19 歲', 89, 1], ['20–30 歲', 193, 1], ['31–40 歲', 239.1, 0], ['41–50 歲', 273.5, 0], ['51–60 歲', 241.6, 0], ['61 歲以上', 428, 0]];
+  var box = document.querySelector('.bars');
+  rows.forEach(function (r) {
+    var d = document.createElement('div'); d.className = 'bar-row';
+    d.innerHTML = '<span>' + r[0] + '</span><div class="bar-fill' + (r[2] ? ' young' : '') + '" style="width:' + (r[1] / 428 * 82).toFixed(1) + '%"><span>' + r[1] + '</span></div>';
+    box.appendChild(d);
   });
 })();
 </script>
